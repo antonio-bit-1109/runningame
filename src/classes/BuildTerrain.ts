@@ -40,6 +40,7 @@ export class buildTerrain {
             x: this.mainPlayer.x
         })
         this.handlePlayerJump()
+        this.generateObstacle()
         this.startGameLoop()
     }
 
@@ -157,6 +158,11 @@ export class buildTerrain {
     }
 
     public generateObstacle() {
-        this.drawElement()
+        this.drawElement(this.obstacleColor, {
+            x: this.canvas.width,
+            y: this.groundLevel + 10, // leggermente più in basso del dino
+            width: 20 + Math.random() * 10,
+            height: 30 + Math.random() * 20,
+        })
     }
 }
