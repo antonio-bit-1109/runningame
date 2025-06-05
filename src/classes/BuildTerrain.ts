@@ -1,4 +1,5 @@
 import {IcoordinatesElem, IPLayerConfig} from "../interf/Player";
+import {IObstacle} from "../interf/Obstacle";
 
 export class buildTerrain {
 
@@ -13,7 +14,7 @@ export class buildTerrain {
     private jumpForce = null;
     private groundLevel = null;
     // Ostacoli
-    private obstacles = null;
+    private obstacles:IObstacle[] | null = null;
     private obstacleTimer = null;
     private obstacleInterval = null; // ogni quanti frame spawna un ostacolo
     private mainPlayer: IPLayerConfig = null;
@@ -31,7 +32,7 @@ export class buildTerrain {
         this.addCanvasToHtml()
         this.canvasSetup()
         this.inizializeMainPlayer()
-
+        this.generateObstacle()
         // inizializzazione giocatore
         this.drawElement(this.mainPlayerColor, {
             height: this.mainPlayer.height,
@@ -40,7 +41,6 @@ export class buildTerrain {
             x: this.mainPlayer.x
         })
         this.handlePlayerJump()
-        this.generateObstacle()
         this.startGameLoop()
     }
 
@@ -151,6 +151,10 @@ export class buildTerrain {
                 x: this.mainPlayer.x
             })
 
+
+            this.moveObstacle()
+            this.disegnaObstacles(this.obstacles)
+
             requestAnimationFrame(loop);
         }
 
@@ -158,11 +162,27 @@ export class buildTerrain {
     }
 
     public generateObstacle() {
-        this.drawElement(this.obstacleColor, {
-            x: this.canvas.width,
-            y: this.groundLevel + 10, // leggermente più in basso del dino
-            width: 20 + Math.random() * 10,
-            height: 30 + Math.random() * 20,
+
+       const obstacle:IObstacle = {
+           height: 40 + Math.random() * 10 ,
+           width:25 ,
+           y: this.groundLevel + 5 ,
+           x: this.canvas.width ,
+           velocity: 5
+       }
+        this.obstacles.push(obstacle)
+    }
+
+    public moveObstacle(){
+        this.obstacles.length > 0 && this.obstacles.forEach(obst => {
+            obst.x -= obst.velocity;
+            return obst.x + obst.width > 0; // tiene solo quelli visibili
+        })
+    }
+
+    public disegnaObstacles(obstacles:IObstacle[]){
+        obstacles.forEach(obs => {
+        this.drawElement(this.obstacleColor, {x: obs.x , y: obs.y , width:obs.width , height: obs.height} )
         })
     }
 }
