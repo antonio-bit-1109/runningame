@@ -5,6 +5,8 @@ export interface IPLayerConfig {
     height: number,
     velocityY: number,
     isJumping: boolean,
+    isCrouching: boolean,
+    isStandUp: boolean
 }
 
 export interface IcoordinatesElem {
