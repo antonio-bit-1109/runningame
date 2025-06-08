@@ -11,10 +11,10 @@ export class buildTerrain {
 
     private gravity = 0.6;
     private jumpForce = -12;
-    private groundLevel = 300;
+    private groundLevel = 320;
     private obstacles = [];
-    // private obstacleTimer = 0;
-    // private obstacleInterval = 100;
+     private obstacleTimer = 0;
+     private obstacleInterval = 100;
     private isGameOver = false;
 
     private mainPlayer: IPLayerConfig = null;
@@ -23,7 +23,7 @@ export class buildTerrain {
     private obstacleColor = 'red';
     private timer = 0;
     private punteggio = 0;
-    private firstInteraction = true;
+    private intervalPunteggio = null;
 
 
     public mainPipeline() {
@@ -49,7 +49,7 @@ export class buildTerrain {
     }
 
     public incrementPunteggio() {
-        setInterval(() => {
+       this.intervalPunteggio = setInterval(() => {
             this.punteggio += 10;
             document.getElementById('divPunti').innerHTML = ` punteggio: ${this.punteggio}`;
         }, 1000)
@@ -171,15 +171,18 @@ export class buildTerrain {
 
         const loop = () => {
 
-            this.timer++
+            // this.timer++
+            this.obstacleTimer++
 
             if (this.isGameOver) {
                 console.log("GAME OVER IS TRUE!!!!")
+                this.interrompiPunteggio();
                 return;
             }
 
-            if (this.timer % 150 === 0 || this.timer % 373 === 0) {
+            if (this.obstacleTimer >= this.obstacleInterval) {
                 this.generateObstacle()
+                this.obstacleTimer = 0
             }
 
             // Pulisce tutto il canvas
@@ -233,14 +236,22 @@ export class buildTerrain {
 
     public generateObstacle() {
 
+        const groundPosition = this.groundLevel + 40;
+        const velocity = Math.random() * 15;
+
+
         const obstacle: IObstacle = {
-            height: 30 + Math.random() * 10,
-            width: 25,
-            y: this.groundLevel - Math.random() * 20,
-            x: this.canvas.width - Math.random() * 20,
-            velocity: 5
+            height: 20 + Math.random() * 10,
+            width: 15,
+            y: groundPosition - this.numeroInteroTraIntervalli(50 , 10),
+            x: this.canvas.width,
+            velocity: velocity
         }
         this.obstacles.push(obstacle)
+    }
+
+    public numeroInteroTraIntervalli(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     public moveObstacle() {
@@ -278,5 +289,9 @@ export class buildTerrain {
 
     }
 
+
+    public interrompiPunteggio(){
+        clearInterval(this.intervalPunteggio)
+    }
 
 }
