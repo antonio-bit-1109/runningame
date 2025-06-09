@@ -1,6 +1,7 @@
 import {BuildHtml} from "./classes/BuildHtml.js";
 import {GameObjects} from "./classes/GameObjects.js";
-import {costanti} from "./constants/costanti";
+import {costanti, drawElement} from "./constants/costanti";
+import {HandleGameLoop} from "./classes/HandleGameLoop";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -11,11 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameObjectsClass = classFactory<GameObjects>(GameObjects , canvas);
     gameObjectsClass.gameObjectPipeLine();
 
+    const handleGameLoopClass = classFactory<HandleGameLoop>(HandleGameLoop)
 
     // disegno sulla canvas il personaggio principale,
     // prima dell inizio del loop;
-   gameObjectsClass.drawElement(costanti.mainPlayerColor , gameObjectsClass.mainPlayer)
-
+   drawElement(costanti.mainPlayerColor , costanti.mainPlayer)
+handleGameLoopClass.startGameLoop()
 });
 
 // funzione factory che instanzia la classe passata come parametro,

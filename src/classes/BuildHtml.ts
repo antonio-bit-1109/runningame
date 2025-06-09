@@ -1,19 +1,22 @@
-import {IcoordinatesElem} from "../interf/Player";
+import {costanti} from "../constants/costanti";
+
 
 export class BuildHtml {
 
-    public upperDiv: HTMLElement = document.getElementById('upperDiv');
-    public gameFrame: HTMLElement = document.getElementById('gameFrame')
-    public lowerDiv: HTMLElement = document.getElementById('lowerDiv');
-    private canvas: HTMLCanvasElement = null;
-    private canvasContext = null;
 
-    public buildFondamentalHtml(){
-        const arrElem = [this.upperDiv , this.gameFrame , this.lowerDiv];
+    public buildFondamentalHtml() {
+
+        costanti.upperDiv = document.getElementById('upperDiv');
+        costanti.gameFrame = document.getElementById('gameFrame');
+        costanti.lowerDiv = document.getElementById('lowerDiv');
+
+        const arrElem = [costanti.upperDiv, costanti.gameFrame, costanti.lowerDiv];
         this.giveWidth(arrElem);
         this.giveHeight(arrElem);
         this.addCanvasToHtml();
-        this.canvasSetContext()
+        this.canvasSetContext();
+        this.incrementPunteggio();
+        this.showPunteggio();
     }
 
     public giveWidth(elements: HTMLElement[]) {
@@ -36,23 +39,38 @@ export class BuildHtml {
     }
 
     public addCanvasToHtml() {
-        this.canvas = document.createElement('canvas')
-        this.canvas.id = 'canvas-id';
-        this.gameFrame.appendChild(this.canvas)
-        this.canvas.height = 400;
-        this.canvas.width = this.gameFrame.offsetWidth; // imposta la larghezza massima
-        this.canvas.classList.add("border", "border-2")
+        costanti.canvas = document.createElement('canvas')
+        costanti.canvas.id = 'canvas-id';
+        costanti.gameFrame.appendChild(costanti.canvas)
+        costanti.canvas.height = 400;
+        costanti.canvas.width = costanti.gameFrame.offsetWidth; // imposta la larghezza massima
+        costanti.canvas.classList.add("border", "border-2")
         // Per aggiornare la larghezza se la finestra cambia:
         window.addEventListener('resize', () => {
-            this.canvas.width = this.gameFrame.offsetWidth - 100;
+            costanti.canvas.width = costanti.gameFrame.offsetWidth - 100;
         });
     }
 
     public canvasSetContext() {
         // imposto il setup della canvas per un gioco 2d
-        this.canvasContext = this.canvas.getContext('2d')
+        costanti.canvasContext = costanti.canvas.getContext('2d')
     }
 
 
+    public incrementPunteggio() {
+        costanti.intervalPunteggio = setInterval(() => {
+            costanti.punteggio += 10;
+            document.getElementById('divPunti').innerHTML = ` punteggio: ${costanti.punteggio}`;
+        }, 1000)
+    }
 
+    public showPunteggio() {
+        const divPunti = document.createElement('div');
+        divPunti.id = 'divPunti'
+        costanti.upperDiv.appendChild(divPunti);
+        divPunti.innerHTML = ` punteggio: ${costanti.punteggio}`;
+
+    }
+
+   
 }

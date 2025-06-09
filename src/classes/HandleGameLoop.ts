@@ -1,0 +1,132 @@
+import {IObstacle} from "../interf/Obstacle";
+import {IPLayerConfig} from "../interf/Player";
+import {costanti, drawElement, interrompiPunteggio} from "../constants/costanti";
+
+export class HandleGameLoop {
+
+
+    public startGameLoop() {
+
+        const loop = () => {
+
+
+            costanti.obstacleTimer++
+
+            if (costanti.isGameOver) {
+                console.log("GAME OVER IS TRUE!!!!")
+                interrompiPunteggio();
+                return;
+            }
+
+            if (costanti.obstacleTimer >= costanti.obstacleInterval) {
+                this.generateObstacle()
+                costanti.obstacleTimer = 0
+            }
+
+            // Pulisce tutto il canvas
+            costanti.canvasContext.clearRect(0, 0, costanti.canvas.width, costanti.canvas.height);
+
+            // Applica la gravità se il player sta saltando
+            if (costanti.mainPlayer.isJumping) {
+                costanti.mainPlayer.velocityY += costanti.gravity;
+                costanti.mainPlayer.y += costanti.mainPlayer.velocityY;
+
+                // Quando il giocatore tocca terra, resetta il salto
+                if (costanti.mainPlayer.y >= costanti.groundLevel) {
+                    costanti.mainPlayer.y = costanti.groundLevel;
+                    costanti.mainPlayer.velocityY = 0;
+                    costanti.mainPlayer.isJumping = false;
+                }
+            }
+
+            // modifica la struttura del player se questo è in modalità abbassato
+
+            if (costanti.mainPlayer.isCrouching && !costanti.mainPlayer.isStandUp) {
+                costanti.mainPlayer.height = costanti.mainPlayer.height / 2
+                costanti.mainPlayer.y = costanti.groundLevel + 40
+                costanti.mainPlayer.width *= 2
+                costanti.mainPlayer.isCrouching = false;
+                costanti.mainPlayer.isStandUp = true;
+            }
+
+
+            // ridisegna il giocatore
+            drawElement(costanti.mainPlayerColor, {
+                height: costanti.mainPlayer.height,
+                width: costanti.mainPlayer.width,
+                y: costanti.mainPlayer.y,
+                x: costanti.mainPlayer.x
+            })
+
+
+            this.moveObstacle()
+            this.disegnaObstacles(costanti.obstacles)
+
+            if (this.isCollisionsDetected(costanti.mainPlayer, costanti.obstacles)) {
+                costanti.isGameOver = true;
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        loop()
+    }
+
+
+    public moveObstacle() {
+        costanti.obstacles.length > 0 && costanti.obstacles.filter(obst => {
+            obst.x -= obst.velocity;
+            return obst.x + obst.width > 0; // tiene solo quelli visibili
+        })
+    }
+
+    public disegnaObstacles(obstacles: IObstacle[]) {
+        obstacles.forEach(obs => {
+            drawElement(costanti.obstacleColor, {
+                x: obs.x,
+                y: obs.y,
+                width: obs.width,
+                height: obs.height
+            })
+        })
+    }
+
+
+    public isCollisionsDetected(mainPlayer: IPLayerConfig, obstacle: IObstacle[]) {
+        console.log(obstacle);
+        return obstacle && obstacle.length > 0 && obstacle.some(obstacle => {
+            if (mainPlayer.x < obstacle.x + obstacle.width &&
+                mainPlayer.x + mainPlayer.width > obstacle.x &&
+                mainPlayer.y < obstacle.y + obstacle.height &&
+                mainPlayer.y + mainPlayer.height > obstacle.y)
+                //
+            {
+                return true;
+            }
+            return false;
+        })
+
+    }
+
+
+    public generateObstacle() {
+
+        const groundPosition = costanti.groundLevel + 40;
+        const velocity = costanti.obstacleVelocity + Math.random() * 8;
+
+
+        const obstacle: IObstacle = {
+            height: 20 + Math.random() * 10,
+            width: 15,
+            y: groundPosition - this.numeroInteroTraIntervalli(10, 65),
+            x: costanti.canvas.width,
+            velocity: velocity
+        }
+        costanti.obstacles.push(obstacle)
+    }
+
+    public numeroInteroTraIntervalli(min: number, max: number): number {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+}
