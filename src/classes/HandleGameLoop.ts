@@ -1,6 +1,6 @@
 import {IObstacle} from "../interf/Obstacle";
 import {IPLayerConfig} from "../interf/Player";
-import {costanti, drawElement, interrompiPunteggio} from "../constants/costanti";
+import {buildGun, costanti, drawElement, interrompiPunteggio} from "../constants/costanti";
 
 export class HandleGameLoop {
 
@@ -28,6 +28,8 @@ export class HandleGameLoop {
 
             // Applica la gravità se il player sta saltando
             if (costanti.mainPlayer.isJumping) {
+
+
                 costanti.mainPlayer.velocityY += costanti.gravity;
                 costanti.mainPlayer.y += costanti.mainPlayer.velocityY;
 
@@ -40,13 +42,27 @@ export class HandleGameLoop {
             }
 
             // modifica la struttura del player se questo è in modalità abbassato
-
             if (costanti.mainPlayer.isCrouching && !costanti.mainPlayer.isStandUp) {
-                costanti.mainPlayer.height = costanti.mainPlayer.height / 2
+                costanti.mainPlayer.height = 40
                 costanti.mainPlayer.y = costanti.groundLevel + 40
-                costanti.mainPlayer.width *= 2
+                costanti.mainPlayer.width = 100
                 costanti.mainPlayer.isCrouching = false;
                 costanti.mainPlayer.isStandUp = true;
+            }
+
+            // se isshooting è true mostro la pistola per sparare
+            if (costanti.mainPlayer.isShooting) {
+                costanti.timerShowGun++
+                console.log(costanti.timerShowGun)
+                if (costanti.timerShowGun >= 50) {
+                    costanti.mainPlayer.isShooting = false;
+                    costanti.timerShowGun = 0;
+
+                } else {
+                    buildGun();
+                }
+
+
             }
 
 

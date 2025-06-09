@@ -1,4 +1,4 @@
-import {costanti} from '../constants/costanti'
+import {buildGun, costanti} from '../constants/costanti'
 import {IcoordinatesElem, IPLayerConfig} from "../interf/Player";
 import {IObstacle} from "../interf/Obstacle";
 
@@ -25,7 +25,8 @@ export class GameObjects {
             velocityY: 0,
             isJumping: false,
             isCrouching: false,
-            isStandUp: true
+            isStandUp: true,
+            isShooting: false
         };
     }
 
@@ -33,6 +34,7 @@ export class GameObjects {
     public handleEventListenersPlayer() {
         document.addEventListener("keydown", (e) => {
             console.log(e.code)
+
             if (e.code === 'Space' &&
                 !costanti.mainPlayer.isJumping &&
                 !costanti.isGameOver) {
@@ -47,10 +49,18 @@ export class GameObjects {
                 this.standUp()
             }
 
+            if (e.code === 'KeyW' && !costanti.mainPlayer.isShooting) {
+                this.shot();
+            }
+
         })
     }
 
     public jump() {
+        if (costanti.mainPlayer.isCrouching) {
+            return;
+        }
+
         costanti.mainPlayer.isJumping = true;
         costanti.mainPlayer.velocityY = costanti.jumpForce
     }
@@ -74,4 +84,10 @@ export class GameObjects {
         costanti.mainPlayer.isCrouching = true;
         costanti.mainPlayer.isStandUp = false;
     }
+
+    public shot() {
+        costanti.mainPlayer.isShooting = true;
+    }
+
+
 }

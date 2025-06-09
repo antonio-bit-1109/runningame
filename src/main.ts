@@ -9,15 +9,16 @@ document.addEventListener("DOMContentLoaded", () => {
     BuildHtmlClass.buildFondamentalHtml();
 
     const canvas = document.getElementById('canvas-id');
-    const gameObjectsClass = classFactory<GameObjects>(GameObjects , canvas);
+    const gameObjectsClass = classFactory<GameObjects>(GameObjects, canvas);
     gameObjectsClass.gameObjectPipeLine();
 
     const handleGameLoopClass = classFactory<HandleGameLoop>(HandleGameLoop)
 
     // disegno sulla canvas il personaggio principale,
     // prima dell inizio del loop;
-   drawElement(costanti.mainPlayerColor , costanti.mainPlayer)
-handleGameLoopClass.startGameLoop()
+    drawElement(costanti.mainPlayerColor, costanti.mainPlayer)
+    handleGameLoopClass.startGameLoop()
+
 });
 
 // funzione factory che instanzia la classe passata come parametro,
