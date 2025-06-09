@@ -74,10 +74,19 @@ export class HandleGameLoop {
 
 
     public moveObstacle() {
-        costanti.obstacles.length > 0 && costanti.obstacles.filter(obst => {
-            obst.x -= obst.velocity;
-            return obst.x + obst.width > 0; // tiene solo quelli visibili
-        })
+
+        if (costanti.obstacles.length > 0) {
+            costanti.obstacles = costanti.obstacles.filter(obst => {
+
+                obst.x -= obst.velocity;
+
+                // mantenimento dell ostacolo solo finche non esce dall asse x della canvas
+                if (obst.x > 0) {
+                    return obst;
+                }
+            })
+        }
+
     }
 
     public disegnaObstacles(obstacles: IObstacle[]) {

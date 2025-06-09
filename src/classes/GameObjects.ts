@@ -13,7 +13,6 @@ export class GameObjects {
 
     public gameObjectPipeLine() {
         this.inizializeMainPlayer();
-        // this.generateObstacle();
         this.handleEventListenersPlayer();
     }
 
@@ -30,7 +29,7 @@ export class GameObjects {
         };
     }
 
-    
+
     public handleEventListenersPlayer() {
         document.addEventListener("keydown", (e) => {
             console.log(e.code)
