@@ -41,11 +41,11 @@ export class GameObjects {
                 this.jump();
             }
 
-            if (e.code === 'ArrowDown' && !costanti.isGameOver) {
+            if (e.code === 'ArrowDown' && !costanti.isGameOver && !costanti.mainPlayer.isJumping) {
                 this.crouch()
             }
 
-            if (e.code === 'ArrowUp' && !costanti.isGameOver) {
+            if (e.code === 'ArrowUp' && !costanti.isGameOver && !costanti.mainPlayer.isJumping) {
                 this.standUp()
             }
 
@@ -66,6 +66,11 @@ export class GameObjects {
 
         costanti.mainPlayer.isJumping = true;
         costanti.mainPlayer.velocityY = costanti.jumpForce
+        const audio: HTMLElement = document.getElementById('jumpPlayer');
+        const audioPlayer = audio as HTMLAudioElement;
+        audioPlayer.src = '/src/assets/sounds/jumpSound.mp3';
+        audioPlayer.currentTime = 0;
+        void audioPlayer.play();
     }
 
     public standUp() {
@@ -90,6 +95,13 @@ export class GameObjects {
 
     public shot() {
         costanti.mainPlayer.isShooting = true;
+        const audio: HTMLElement = document.getElementById('shotPlayer');
+        const audioPlayer = audio as HTMLAudioElement;
+        audioPlayer.src = '/src/assets/sounds/shotSound.mp3';
+        audioPlayer.currentTime = 0;
+        setTimeout(() => {
+            void audioPlayer.play();
+        }, 800)
     }
 
 

@@ -20,6 +20,7 @@ export class HandleGameLoop {
 
             costanti.obstacleTimer++
 
+
             if (costanti.isGameOver) {
                 console.log("GAME OVER IS TRUE!!!!")
                 interrompiPunteggio();
