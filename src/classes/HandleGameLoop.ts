@@ -1,13 +1,13 @@
 import {ICircle, IObstacle} from "../interf/Obstacle";
 import {IcoordinatesElem, IPLayerConfig} from "../interf/Player";
 import {
+    addPunteggioBonus,
     buildGun,
     costanti,
-    drawCircle,
     drawElement,
     interrompiPunteggio,
     moveBullet,
-    showCurrentLevel
+    update_showOstacoliAbbattuti_InitialVAlue
 } from "../constants/costanti";
 
 export class HandleGameLoop {
@@ -17,7 +17,7 @@ export class HandleGameLoop {
 
         const loop = () => {
 
-            
+
             costanti.obstacleTimer++
 
             if (costanti.isGameOver) {
@@ -96,6 +96,9 @@ export class HandleGameLoop {
                 costanti.obstacles = costanti.obstacles.filter(obstacle => obstacle !== costanti.ObstacleShotted);
                 costanti.Bullet = null;
                 costanti.ObstacleShotted = null;
+                costanti.ostacoliAbbattuti++
+                update_showOstacoliAbbattuti_InitialVAlue()
+                addPunteggioBonus();
             }
 
             requestAnimationFrame(loop);

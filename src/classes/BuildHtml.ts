@@ -18,6 +18,7 @@ export class BuildHtml {
         this.incrementPunteggio();
         this.showPunteggio();
         this.showInitialLevel()
+        this.showOstacoliAbbattuti_InitialVAlue();
     }
 
     public giveWidth(elements: HTMLElement[]) {
@@ -80,5 +81,12 @@ export class BuildHtml {
         divLivello.id = 'divLivello';
         costanti.upperDiv.appendChild(divLivello);
         divLivello.innerHTML = `Livello: ${costanti.gameLevel}`
+    }
+
+    public showOstacoliAbbattuti_InitialVAlue() {
+        const divOstacoliAbbattuti = document.createElement('div');
+        divOstacoliAbbattuti.id = 'divOstacoliAbbattuti';
+        costanti.upperDiv.appendChild(divOstacoliAbbattuti);
+        divOstacoliAbbattuti.innerHTML = `ostacoli distrutti: ${costanti.ostacoliAbbattuti}`
     }
 }

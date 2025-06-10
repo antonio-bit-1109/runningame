@@ -25,7 +25,8 @@ export const costanti: ICostanti = {
     lowerDiv: null,
     timerShowGun: 0,
     ObstacleShotted: null,
-    gameLevel: 1
+    gameLevel: 1,
+    ostacoliAbbattuti: 0
 }
 
 
@@ -53,7 +54,8 @@ interface ICostanti {
     lowerDiv: HTMLElement | null,
     timerShowGun: number,
     ObstacleShotted: null | IObstacle,
-    gameLevel: number
+    gameLevel: number,
+    ostacoliAbbattuti: number
 }
 
 
@@ -147,4 +149,17 @@ export function showCurrentLevel() {
     divLivello.id = 'divLivello';
     costanti.upperDiv.appendChild(divLivello);
     divLivello.innerHTML = `Livello: ${costanti.gameLevel}`
+}
+
+export function update_showOstacoliAbbattuti_InitialVAlue() {
+    // const divOstacoliAbbattuti = document.createElement('div');
+    // divOstacoliAbbattuti.id = 'divOstacoliAbbattuti';
+    // costanti.upperDiv.appendChild(divOstacoliAbbattuti);
+    // divOstacoliAbbattuti.innerHTML = `ostacoli distrutti: ${costanti.ostacoliAbbattuti}`
+    const divOstacoliAbbattuti = document.getElementById('divOstacoliAbbattuti');
+    divOstacoliAbbattuti.innerHTML = `ostacoli distrutti: ${costanti.ostacoliAbbattuti}`
+}
+
+export function addPunteggioBonus() {
+    costanti.punteggio += 50;
 }
