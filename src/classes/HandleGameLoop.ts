@@ -1,6 +1,6 @@
-import {IObstacle} from "../interf/Obstacle";
-import {IPLayerConfig} from "../interf/Player";
-import {buildGun, costanti, drawElement, interrompiPunteggio} from "../constants/costanti";
+import {ICircle, IObstacle} from "../interf/Obstacle";
+import {IcoordinatesElem, IPLayerConfig} from "../interf/Player";
+import {buildGun, costanti, drawCircle, drawElement, interrompiPunteggio, moveBullet} from "../constants/costanti";
 
 export class HandleGameLoop {
 
@@ -54,17 +54,19 @@ export class HandleGameLoop {
             if (costanti.mainPlayer.isShooting) {
                 costanti.timerShowGun++
                 console.log(costanti.timerShowGun)
+
                 if (costanti.timerShowGun >= 50) {
                     costanti.mainPlayer.isShooting = false;
                     costanti.timerShowGun = 0;
 
                 } else {
                     buildGun();
+
                 }
 
 
             }
-
+            moveBullet()
 
             // ridisegna il giocatore
             drawElement(costanti.mainPlayerColor, {
@@ -80,6 +82,12 @@ export class HandleGameLoop {
 
             if (this.isCollisionsDetected(costanti.mainPlayer, costanti.obstacles)) {
                 costanti.isGameOver = true;
+            }
+
+            if (this.isCollisionDetected_W_Bullet_N_obstacle(costanti.Bullet, costanti.obstacles)) {
+                costanti.obstacles = costanti.obstacles.filter(obstacle => obstacle !== costanti.ObstacleShotted);
+                costanti.Bullet = null;
+                costanti.ObstacleShotted = null;
             }
 
             requestAnimationFrame(loop);
@@ -117,13 +125,13 @@ export class HandleGameLoop {
     }
 
 
-    public isCollisionsDetected(mainPlayer: IPLayerConfig, obstacle: IObstacle[]) {
-        console.log(obstacle);
-        return obstacle && obstacle.length > 0 && obstacle.some(obstacle => {
-            if (mainPlayer.x < obstacle.x + obstacle.width &&
-                mainPlayer.x + mainPlayer.width > obstacle.x &&
-                mainPlayer.y < obstacle.y + obstacle.height &&
-                mainPlayer.y + mainPlayer.height > obstacle.y)
+    public isCollisionsDetected(mainPlayer: IcoordinatesElem, obstacles: IObstacle[]) {
+        console.log(obstacles);
+        return obstacles && obstacles.length > 0 && obstacles.some(obst => {
+            if (mainPlayer.x < obst.x + obst.width &&
+                mainPlayer.x + mainPlayer.width > obst.x &&
+                mainPlayer.y < obst.y + obst.height &&
+                mainPlayer.y + mainPlayer.height > obst.y)
                 //
             {
                 return true;
@@ -133,6 +141,21 @@ export class HandleGameLoop {
 
     }
 
+    public isCollisionDetected_W_Bullet_N_obstacle(bullet: ICircle, obstacles: IObstacle[]) {
+
+        return bullet && obstacles && obstacles.length > 0 && obstacles.some(obst => {
+            if (bullet.x < obst.x + obst.width &&
+                bullet.x + bullet.radius > obst.x &&
+                bullet.y < obst.y + obst.height &&
+                bullet.y + bullet.radius > obst.y)
+                //
+            {
+                costanti.ObstacleShotted = obst;
+                return true;
+            }
+            return false;
+        })
+    }
 
     public generateObstacle() {
 
@@ -153,5 +176,6 @@ export class HandleGameLoop {
     public numeroInteroTraIntervalli(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
 
 }

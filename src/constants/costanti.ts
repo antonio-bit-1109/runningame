@@ -16,14 +16,15 @@ export const costanti: ICostanti = {
     obstacleInterval: 100,
     mainPlayer: null,
     obstacles: [],
-    arrBullets: [],
+    Bullet: null,
     obstacleVelocity: 8,
     canvas: null,
     canvasContext: null,
     upperDiv: null,
     gameFrame: null,
     lowerDiv: null,
-    timerShowGun: 0
+    timerShowGun: 0,
+    ObstacleShotted: null
 }
 
 
@@ -42,14 +43,15 @@ interface ICostanti {
     obstacleInterval: number,
     mainPlayer: null | IPLayerConfig,
     obstacles: IObstacle[],
-    arrBullets: ICircle[],
+    Bullet: ICircle | null,
     obstacleVelocity: number,
     canvas: HTMLCanvasElement | null,
     canvasContext: any | null,
     upperDiv: HTMLElement | null,
     gameFrame: HTMLElement | null,
     lowerDiv: HTMLElement | null,
-    timerShowGun: number
+    timerShowGun: number,
+    ObstacleShotted: null | IObstacle
 }
 
 
@@ -100,13 +102,13 @@ export function buildGun() {
     }
 
     const bullet: ICircle = {
-        x: 200,
+        x: 180,
         y: costanti.mainPlayer.y + 15,
         radius: 6,
         startAngle: 0,
         endAngle: Math.PI * 2,
         counterclockwise: false,
-        velocity: 12
+        velocity: 7
     }
 
     // disegno braccio player
@@ -115,6 +117,23 @@ export function buildGun() {
     //disegno pistola
     drawElement(costanti.gunColor, gunHandle)
     drawElement(costanti.gunColor, gunBarrel)
-    drawCircle(costanti.bulletColor, bullet)
-    costanti.arrBullets.push(bullet);
+    // drawCircle(costanti.bulletColor, bullet)
+    costanti.Bullet = bullet;
+}
+
+
+export function moveBullet() {
+    if (costanti.Bullet != null) {
+        let bullet = costanti.Bullet;
+
+        if (bullet.x > costanti.canvas.width) {
+            costanti.Bullet = null;
+        }
+
+        bullet.x += bullet.velocity
+        drawCircle(costanti.bulletColor, bullet)
+    } else {
+        console.log("il bullet è null.")
+    }
+
 }

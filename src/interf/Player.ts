@@ -15,4 +15,6 @@ export interface IcoordinatesElem {
     y: number,
     width: number,
     height: number,
+
+    [key: string]: any
 }

@@ -49,7 +49,10 @@ export class GameObjects {
                 this.standUp()
             }
 
-            if (e.code === 'KeyW' && !costanti.mainPlayer.isShooting) {
+            if (e.code === 'KeyW' &&
+                !costanti.mainPlayer.isShooting &&
+                costanti.Bullet === null
+            ) {
                 this.shot();
             }
 
