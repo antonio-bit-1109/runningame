@@ -17,6 +17,7 @@ export class BuildHtml {
         this.canvasSetContext();
         this.incrementPunteggio();
         this.showPunteggio();
+        this.showInitialLevel()
     }
 
     public giveWidth(elements: HTMLElement[]) {
@@ -73,4 +74,11 @@ export class BuildHtml {
     }
 
 
+    public showInitialLevel() {
+        costanti.upperDiv.classList.add("d-flex", "flex-column")
+        const divLivello = document.createElement('div');
+        divLivello.id = 'divLivello';
+        costanti.upperDiv.appendChild(divLivello);
+        divLivello.innerHTML = `Livello: ${costanti.gameLevel}`
+    }
 }

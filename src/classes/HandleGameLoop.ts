@@ -1,6 +1,14 @@
 import {ICircle, IObstacle} from "../interf/Obstacle";
 import {IcoordinatesElem, IPLayerConfig} from "../interf/Player";
-import {buildGun, costanti, drawCircle, drawElement, interrompiPunteggio, moveBullet} from "../constants/costanti";
+import {
+    buildGun,
+    costanti,
+    drawCircle,
+    drawElement,
+    interrompiPunteggio,
+    moveBullet,
+    showCurrentLevel
+} from "../constants/costanti";
 
 export class HandleGameLoop {
 
@@ -9,7 +17,7 @@ export class HandleGameLoop {
 
         const loop = () => {
 
-
+            
             costanti.obstacleTimer++
 
             if (costanti.isGameOver) {

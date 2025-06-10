@@ -24,7 +24,8 @@ export const costanti: ICostanti = {
     gameFrame: null,
     lowerDiv: null,
     timerShowGun: 0,
-    ObstacleShotted: null
+    ObstacleShotted: null,
+    gameLevel: 1
 }
 
 
@@ -51,7 +52,8 @@ interface ICostanti {
     gameFrame: HTMLElement | null,
     lowerDiv: HTMLElement | null,
     timerShowGun: number,
-    ObstacleShotted: null | IObstacle
+    ObstacleShotted: null | IObstacle,
+    gameLevel: number
 }
 
 
@@ -136,4 +138,13 @@ export function moveBullet() {
         console.log("il bullet è null.")
     }
 
+}
+
+
+export function showCurrentLevel() {
+    costanti.upperDiv.classList.add("d-flex", "flex-column")
+    const divLivello = document.createElement('div');
+    divLivello.id = 'divLivello';
+    costanti.upperDiv.appendChild(divLivello);
+    divLivello.innerHTML = `Livello: ${costanti.gameLevel}`
 }
