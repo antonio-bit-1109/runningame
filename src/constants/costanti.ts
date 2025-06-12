@@ -1,5 +1,6 @@
 import {IcoordinatesElem, IPLayerConfig} from "../interf/Player";
 import {ICircle, IObstacle} from "../interf/Obstacle";
+import {IBoss} from "../interf/Boss";
 
 export const costanti: ICostanti = {
     groundLevel: 320,
@@ -26,7 +27,10 @@ export const costanti: ICostanti = {
     timerShowGun: 0,
     ObstacleShotted: null,
     gameLevel: 1,
-    ostacoliAbbattuti: 0
+    ostacoliAbbattuti: 0,
+    lastLevelScore: null,
+    enemyBoss: null,
+    bossColor: 'green'
 }
 
 
@@ -55,7 +59,10 @@ interface ICostanti {
     timerShowGun: number,
     ObstacleShotted: null | IObstacle,
     gameLevel: number,
-    ostacoliAbbattuti: number
+    ostacoliAbbattuti: number,
+    lastLevelScore: null | number,
+    enemyBoss: null | IBoss,
+    bossColor: string
 }
 
 
@@ -80,7 +87,28 @@ export function drawCircle(color: string, circleParam: ICircle) {
 
 export function interrompiPunteggio() {
     clearInterval(costanti.intervalPunteggio)
+
 }
+
+export function playSoundDeath() {
+    const deathPlayer = document.getElementById('deathPlayer');
+    const audioPLayer = deathPlayer as HTMLAudioElement;
+    audioPLayer.src = '/src/assets/sounds/death.mp3';
+    audioPLayer.currentTime = 0;
+    void audioPLayer.play();
+}
+
+export function interrompiAltreMusiche() {
+    const arrElem: HTMLElement[] = document.getElementsByTagName('audio');
+    const arrAudioPlayer = Array.from(arrElem) as HTMLAudioElement[];
+    arrAudioPlayer.forEach(player => {
+        if (player.id !== 'deathPlayer') {
+            player.currentTime = 0;
+            void player.pause()
+        }
+    })
+}
+
 
 export function buildGun() {
 
@@ -143,11 +171,9 @@ export function moveBullet() {
 }
 
 
-export function showCurrentLevel() {
-    costanti.upperDiv.classList.add("d-flex", "flex-column")
-    const divLivello = document.createElement('div');
-    divLivello.id = 'divLivello';
-    costanti.upperDiv.appendChild(divLivello);
+export function showNExtLevelHtml() {
+    const divLivello = document.getElementById('divLivello');
+    costanti.gameLevel++
     divLivello.innerHTML = `Livello: ${costanti.gameLevel}`
 }
 
@@ -162,4 +188,38 @@ export function update_showOstacoliAbbattuti_InitialVAlue() {
 
 export function addPunteggioBonus() {
     costanti.punteggio += 50;
+}
+
+
+// il boss appare solo ogni 5 livelli
+export function generateBoss() {
+
+    if (costanti.enemyBoss === null) {
+        console.log("BOSS GENERATO")
+        const boss: IBoss = {
+            x: 1300,
+            y: costanti.groundLevel + 200,
+            height: -450,
+            width: 250,
+            isShooting: false
+        }
+        costanti.enemyBoss = boss
+    }
+
+}
+
+export function moveBoss() {
+    if (costanti.enemyBoss.x > 800) {
+        costanti.enemyBoss.x -= 1;
+    }
+}
+
+export function bossMusic() {
+    const element = document.getElementById('bossSound');
+    const audioPlayer = element as HTMLAudioElement;
+    if (audioPlayer.paused) {
+        audioPlayer.src = 'src/assets/sounds/bossMusic.mp3';
+        audioPlayer.currentTime = 0;
+        void audioPlayer.play();
+    }
 }

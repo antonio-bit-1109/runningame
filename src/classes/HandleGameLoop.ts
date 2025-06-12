@@ -1,12 +1,12 @@
 import {ICircle, IObstacle} from "../interf/Obstacle";
-import {IcoordinatesElem, IPLayerConfig} from "../interf/Player";
+import {IcoordinatesElem} from "../interf/Player";
 import {
-    addPunteggioBonus,
+    addPunteggioBonus, bossMusic,
     buildGun,
     costanti,
-    drawElement,
-    interrompiPunteggio,
-    moveBullet,
+    drawElement, generateBoss, interrompiAltreMusiche,
+    interrompiPunteggio, moveBoss,
+    moveBullet, playSoundDeath, showNExtLevelHtml,
     update_showOstacoliAbbattuti_InitialVAlue
 } from "../constants/costanti";
 
@@ -20,10 +20,21 @@ export class HandleGameLoop {
 
             costanti.obstacleTimer++
 
+            // funzione per capire se si è passati al livello successivo
+            this.handleNextLevelGame(costanti.punteggio)
+
+            // gestione della generazione dle boss
+
+            if (costanti.gameLevel === 2) {
+                generateBoss()
+            }
+
 
             if (costanti.isGameOver) {
                 console.log("GAME OVER IS TRUE!!!!")
                 interrompiPunteggio();
+                playSoundDeath();
+                interrompiAltreMusiche()
                 return;
             }
 
@@ -77,6 +88,7 @@ export class HandleGameLoop {
             }
             moveBullet()
 
+
             // ridisegna il giocatore
             drawElement(costanti.mainPlayerColor, {
                 height: costanti.mainPlayer.height,
@@ -84,6 +96,21 @@ export class HandleGameLoop {
                 y: costanti.mainPlayer.y,
                 x: costanti.mainPlayer.x
             })
+
+
+            if (costanti.enemyBoss) {
+                bossMusic()
+                moveBoss()
+                // disegna il boss sulla canvas
+                if (costanti.enemyBoss !== null) {
+                    drawElement(costanti.bossColor, {
+                        x: costanti.enemyBoss.x,
+                        y: costanti.enemyBoss.y,
+                        width: costanti.enemyBoss.width,
+                        height: costanti.enemyBoss.height
+                    })
+                }
+            }
 
 
             this.moveObstacle()
@@ -178,16 +205,21 @@ export class HandleGameLoop {
         const obstacle: IObstacle = {
             height: 20 + Math.random() * 10,
             width: 15,
-            y: groundPosition - this.numeroInteroTraIntervalli(10, 65),
+            y: groundPosition - Math.random() * 101,
             x: costanti.canvas.width,
             velocity: velocity
         }
         costanti.obstacles.push(obstacle)
     }
 
-    public numeroInteroTraIntervalli(min: number, max: number): number {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
 
+    // aumenta la difficolta del livello aumentando la velocità degli ostacoli
+    public handleNextLevelGame(punteggio: number) {
+        if (punteggio % 100 === 0 && punteggio !== 0 && punteggio !== costanti.lastLevelScore) {
+            costanti.obstacles.map(obst => obst.velocity++)
+            showNExtLevelHtml();
+            costanti.lastLevelScore = punteggio
+        }
+    }
 
 }
