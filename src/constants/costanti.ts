@@ -99,7 +99,9 @@ export function playSoundDeath() {
 }
 
 export function interrompiAltreMusiche() {
+    // @ts-ignore
     const arrElem: HTMLElement[] = document.getElementsByTagName('audio');
+    // @ts-ignore
     const arrAudioPlayer = Array.from(arrElem) as HTMLAudioElement[];
     arrAudioPlayer.forEach(player => {
         if (player.id !== 'deathPlayer') {
