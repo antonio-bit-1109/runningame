@@ -1,7 +1,8 @@
 import {BuildHtml} from "./classes/BuildHtml.js";
 import {GameObjects} from "./classes/GameObjects.js";
-import {costanti, drawElement} from "./constants/costanti";
+import {costanti} from "./constants/costanti";
 import {HandleGameLoop} from "./classes/HandleGameLoop";
+import {drawElement} from "./constants/GameFunctions";
 
 document.addEventListener("DOMContentLoaded", () => {
 
