@@ -1,6 +1,5 @@
-import {ICircle, IObstacle} from "../interf/Obstacle";
-import {IcoordinatesElem} from "../interf/Player";
 import {
+
     addPunteggioBonus,
     bossEntranceFrase,
     bossMusic,
@@ -15,10 +14,10 @@ import {
     interrompiPunteggio,
     isCollisionDetected_w_bullet_n_boss,
     isCollisionDetected_W_Bullet_N_obstacle,
-    isCollisionsDetected,
+    isCollisionsDetected, loadBackgroundToCanvas,
     moveBoss,
     moveBullet, moveObstacle,
-    playSoundDeath,
+    playSoundDeath, showBackgroundIfReady,
     update_showOstacoliAbbattuti_InitialVAlue
 } from "../constants/GameFunctions";
 import {costanti} from "../constants/costanti";
@@ -27,6 +26,9 @@ export class HandleGameLoop {
 
 
     public startGameLoop() {
+
+
+        loadBackgroundToCanvas()
 
         const loop = () => {
 
@@ -58,6 +60,8 @@ export class HandleGameLoop {
 
             // Pulisce tutto il canvas
             costanti.canvasContext.clearRect(0, 0, costanti.canvas.width, costanti.canvas.height);
+
+            showBackgroundIfReady()
 
             // Applica la gravità se il player sta saltando
             if (costanti.mainPlayer.isJumping) {
@@ -147,6 +151,7 @@ export class HandleGameLoop {
             }
 
             moveBullet()
+
             requestAnimationFrame(loop);
         }
 

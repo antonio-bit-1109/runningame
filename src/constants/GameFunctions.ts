@@ -343,3 +343,21 @@ export function handleNextLevelGame(punteggio: number) {
         costanti.lastLevelScore = punteggio
     }
 }
+
+export function loadBackgroundToCanvas() {
+
+    const img = new Image();
+    img.src = 'src/assets/materials/background2.jpg';
+    costanti.backgroundImage = img;
+
+}
+
+export function showBackgroundIfReady() {
+    if (costanti.backgroundImage?.complete) {
+        costanti.canvasContext.drawImage(costanti.backgroundImage, 0, 0, costanti.canvas.width, costanti.canvas.height);
+    }
+}
+
+export function generateBombs() {
+
+}

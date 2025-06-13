@@ -19,6 +19,7 @@ export class BuildHtml {
         this.showPunteggio();
         this.showInitialLevel()
         this.showOstacoliAbbattuti_InitialVAlue();
+     
     }
 
     public giveWidth(elements: HTMLElement[]) {
@@ -52,6 +53,7 @@ export class BuildHtml {
             costanti.canvas.width = costanti.gameFrame.offsetWidth - 100;
         });
     }
+
 
     public canvasSetContext() {
         // imposto il setup della canvas per un gioco 2d

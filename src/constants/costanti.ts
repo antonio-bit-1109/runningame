@@ -1,6 +1,6 @@
 import {IPLayerConfig} from "../interf/Player";
 import {ICircle, IObstacle} from "../interf/Obstacle";
-import {IBoss} from "../interf/Boss";
+import {IBombs, IBoss} from "../interf/Boss";
 
 export const costanti: ICostanti = {
     groundLevel: 320,
@@ -35,7 +35,9 @@ export const costanti: ICostanti = {
     isBossLifeSpawned: false,
     canvasHeight: 400,
     isShrinking: false,
-    bulletDamage: 30
+    bulletDamage: 30,
+    bombsArray: [],
+    backgroundImage: null
 }
 
 
@@ -72,7 +74,9 @@ interface ICostanti {
     isBossLifeSpawned: boolean,
     canvasHeight: number,
     isShrinking: boolean,
-    bulletDamage: number
+    bulletDamage: number,
+    bombsArray: IBombs[],
+    backgroundImage: HTMLImageElement | null
 }
 
 
