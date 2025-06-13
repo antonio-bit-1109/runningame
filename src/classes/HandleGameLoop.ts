@@ -28,6 +28,7 @@ export class HandleGameLoop {
     public startGameLoop() {
 
 
+        // caricamento iniziale dell immagine come valore costante
         loadBackgroundToCanvas()
 
         const loop = () => {
@@ -39,7 +40,6 @@ export class HandleGameLoop {
             handleNextLevelGame(costanti.punteggio)
 
             // gestione della generazione dle boss
-
             if (costanti.gameLevel === 2) {
                 generateBoss()
             }
@@ -61,6 +61,7 @@ export class HandleGameLoop {
             // Pulisce tutto il canvas
             costanti.canvasContext.clearRect(0, 0, costanti.canvas.width, costanti.canvas.height);
 
+            // se lìimmagine di sfondo è stata caricata la inserisco nel loop
             showBackgroundIfReady()
 
             // Applica la gravità se il player sta saltando
