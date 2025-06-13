@@ -44,8 +44,8 @@ export class BuildHtml {
         costanti.canvas = document.createElement('canvas')
         costanti.canvas.id = 'canvas-id';
         costanti.gameFrame.appendChild(costanti.canvas)
-        costanti.canvas.height = 400;
-        costanti.canvas.width = costanti.gameFrame.offsetWidth; // imposta la larghezza massima
+        costanti.canvas.height = costanti.canvasHeight;
+        costanti.canvas.width = costanti.gameFrame.offsetWidth - 200; // imposta la larghezza massima
         costanti.canvas.classList.add("border", "border-2")
         // Per aggiornare la larghezza se la finestra cambia:
         window.addEventListener('resize', () => {
