@@ -1,4 +1,4 @@
-import {IcoordinatesElem, IPLayerConfig} from "../interf/Player";
+import {IPLayerConfig} from "../interf/Player";
 import {ICircle, IObstacle} from "../interf/Obstacle";
 import {IBoss} from "../interf/Boss";
 
@@ -30,7 +30,12 @@ export const costanti: ICostanti = {
     ostacoliAbbattuti: 0,
     lastLevelScore: null,
     enemyBoss: null,
-    bossColor: 'green'
+    bossColor: 'green',
+    bossHp: 300,
+    isBossLifeSpawned: false,
+    canvasHeight: 400,
+    isShrinking: false,
+    bulletDamage: 30
 }
 
 
@@ -62,166 +67,12 @@ interface ICostanti {
     ostacoliAbbattuti: number,
     lastLevelScore: null | number,
     enemyBoss: null | IBoss,
-    bossColor: string
+    bossColor: string,
+    bossHp: number,
+    isBossLifeSpawned: boolean,
+    canvasHeight: number,
+    isShrinking: boolean,
+    bulletDamage: number
 }
 
 
-export function drawElement(color: string, coord: IcoordinatesElem) {
-    costanti.canvasContext.fillStyle = color
-    costanti.canvasContext.fillRect(coord.x, coord.y, coord.width, coord.height)
-}
-
-export function drawCircle(color: string, circleParam: ICircle) {
-    costanti.canvasContext.beginPath();
-    costanti.canvasContext.arc(
-        circleParam.x,
-        circleParam.y,
-        circleParam.radius,
-        circleParam.startAngle,
-        circleParam.endAngle,
-        circleParam.counterclockwise
-    );
-    costanti.canvasContext.fillStyle = color;
-    costanti.canvasContext.fill();
-}
-
-export function interrompiPunteggio() {
-    clearInterval(costanti.intervalPunteggio)
-
-}
-
-export function playSoundDeath() {
-    const deathPlayer = document.getElementById('deathPlayer');
-    const audioPLayer = deathPlayer as HTMLAudioElement;
-    audioPLayer.src = '/src/assets/sounds/death.mp3';
-    audioPLayer.currentTime = 0;
-    void audioPLayer.play();
-}
-
-export function interrompiAltreMusiche() {
-    // @ts-ignore
-    const arrElem: HTMLElement[] = document.getElementsByTagName('audio');
-    // @ts-ignore
-    const arrAudioPlayer = Array.from(arrElem) as HTMLAudioElement[];
-    arrAudioPlayer.forEach(player => {
-        if (player.id !== 'deathPlayer') {
-            player.currentTime = 0;
-            void player.pause()
-        }
-    })
-}
-
-
-export function buildGun() {
-
-    // la posizione del braccio segue sempre la y del personaggio cosi se salta anche il braccio salta con lui
-    const playerArm: IcoordinatesElem = {
-        height: 8,
-        width: 35,
-        y: costanti.mainPlayer.y + 30,
-        x: 140
-    }
-
-    const gunHandle: IcoordinatesElem = {
-        height: 40,
-        width: 8,
-        y: costanti.mainPlayer.y + 11,
-        x: 165
-    }
-    const gunBarrel: IcoordinatesElem = {
-        height: 8,
-        width: 30,
-        y: costanti.mainPlayer.y + 11,
-        x: 165
-    }
-
-    const bullet: ICircle = {
-        x: 180,
-        y: costanti.mainPlayer.y + 15,
-        radius: 6,
-        startAngle: 0,
-        endAngle: Math.PI * 2,
-        counterclockwise: false,
-        velocity: 7
-    }
-
-    // disegno braccio player
-    drawElement(costanti.mainPlayerColor, playerArm);
-
-    //disegno pistola
-    drawElement(costanti.gunColor, gunHandle)
-    drawElement(costanti.gunColor, gunBarrel)
-    // drawCircle(costanti.bulletColor, bullet)
-    costanti.Bullet = bullet;
-}
-
-
-export function moveBullet() {
-    if (costanti.Bullet != null) {
-        let bullet = costanti.Bullet;
-
-        if (bullet.x > costanti.canvas.width) {
-            costanti.Bullet = null;
-        }
-
-        bullet.x += bullet.velocity
-        drawCircle(costanti.bulletColor, bullet)
-    } else {
-        console.log("il bullet è null.")
-    }
-
-}
-
-
-export function showNExtLevelHtml() {
-    const divLivello = document.getElementById('divLivello');
-    costanti.gameLevel++
-    divLivello.innerHTML = `Livello: ${costanti.gameLevel}`
-}
-
-export function update_showOstacoliAbbattuti_InitialVAlue() {
-    // const divOstacoliAbbattuti = document.createElement('div');
-    // divOstacoliAbbattuti.id = 'divOstacoliAbbattuti';
-    // costanti.upperDiv.appendChild(divOstacoliAbbattuti);
-    // divOstacoliAbbattuti.innerHTML = `ostacoli distrutti: ${costanti.ostacoliAbbattuti}`
-    const divOstacoliAbbattuti = document.getElementById('divOstacoliAbbattuti');
-    divOstacoliAbbattuti.innerHTML = `ostacoli distrutti: ${costanti.ostacoliAbbattuti}`
-}
-
-export function addPunteggioBonus() {
-    costanti.punteggio += 50;
-}
-
-
-// il boss appare solo ogni 5 livelli
-export function generateBoss() {
-
-    if (costanti.enemyBoss === null) {
-        console.log("BOSS GENERATO")
-        const boss: IBoss = {
-            x: 1300,
-            y: costanti.groundLevel + 200,
-            height: -450,
-            width: 250,
-            isShooting: false
-        }
-        costanti.enemyBoss = boss
-    }
-
-}
-
-export function moveBoss() {
-    if (costanti.enemyBoss.x > 800) {
-        costanti.enemyBoss.x -= 1;
-    }
-}
-
-export function bossMusic() {
-    const element = document.getElementById('bossSound');
-    const audioPlayer = element as HTMLAudioElement;
-    if (audioPlayer.paused) {
-        audioPlayer.src = 'src/assets/sounds/bossMusic.mp3';
-        audioPlayer.currentTime = 0;
-        void audioPlayer.play();
-    }
-}

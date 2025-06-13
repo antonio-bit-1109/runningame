@@ -3,5 +3,6 @@ export interface IBoss {
     y: number,
     width: number,
     height: number,
-    isShooting: boolean
+    isShooting: boolean,
+    hp: number
 }

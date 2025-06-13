@@ -1,6 +1,5 @@
-import {buildGun, costanti} from '../constants/costanti'
-import {IcoordinatesElem, IPLayerConfig} from "../interf/Player";
-import {IObstacle} from "../interf/Obstacle";
+import {costanti} from '../constants/costanti'
+
 
 export class GameObjects {
 
@@ -37,6 +36,7 @@ export class GameObjects {
 
             if (e.code === 'Space' &&
                 !costanti.mainPlayer.isJumping &&
+                !costanti.mainPlayer.isCrouching &&
                 !costanti.isGameOver) {
                 this.jump();
             }
