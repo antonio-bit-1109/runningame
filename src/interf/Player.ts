@@ -9,7 +9,8 @@ export interface IPLayerConfig {
     isStandUp: boolean,
     isShooting: boolean,
     movingRight: boolean,
-    movingLeft: boolean
+    movingLeft: boolean,
+    hp: number
 }
 
 export interface IcoordinatesElem {

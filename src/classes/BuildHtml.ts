@@ -19,7 +19,7 @@ export class BuildHtml {
         this.showPunteggio();
         this.showInitialLevel()
         this.showOstacoliAbbattuti_InitialVAlue();
-     
+        this.buildPlayerLifesHtml()
     }
 
     public giveWidth(elements: HTMLElement[]) {
@@ -53,7 +53,6 @@ export class BuildHtml {
             costanti.canvas.width = costanti.gameFrame.offsetWidth - 100;
         });
     }
-
 
     public canvasSetContext() {
         // imposto il setup della canvas per un gioco 2d
@@ -90,5 +89,22 @@ export class BuildHtml {
         divOstacoliAbbattuti.id = 'divOstacoliAbbattuti';
         costanti.upperDiv.appendChild(divOstacoliAbbattuti);
         divOstacoliAbbattuti.innerHTML = `ostacoli distrutti: ${costanti.ostacoliAbbattuti}`
+    }
+
+    public buildPlayerLifesHtml() {
+        const outerWrapper = document.createElement("div");
+        outerWrapper.classList.add("d-flex", "justify-content-start", "w-100", "m-custom-l");
+
+        const wrapperHearts = document.createElement("div");
+        wrapperHearts.classList.add("d-flex")
+        for (let i = 0; i < 3; i++) {
+            const fillHeart = document.createElement("img");
+            fillHeart.classList.add(`hearth`)
+            fillHeart.src = "src/assets/materials/heartFill.png"
+            fillHeart.style.width = '40px'
+            wrapperHearts.appendChild(fillHeart)
+        }
+        outerWrapper.appendChild(wrapperHearts)
+        costanti.upperDiv.appendChild(outerWrapper);
     }
 }

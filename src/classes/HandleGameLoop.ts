@@ -3,7 +3,7 @@ import {
     addPunteggioBonus,
     bossEntranceFrase,
     bossMusic,
-    buildGun,
+    buildGun, checkIfCollisionIsNoMore,
     createBossHpBar,
     disegnaObstacles,
     drawElement,
@@ -147,12 +147,10 @@ export class HandleGameLoop {
             }
 
 
-            // moveObstacle()
-            // disegnaObstacles(costanti.obstacles)
+            moveObstacle()
+            disegnaObstacles(costanti.obstacles)
 
-            if (isCollisionsDetected(costanti.mainPlayer, costanti.obstacles)) {
-                costanti.isGameOver = true;
-            }
+            isCollisionsDetected(costanti.mainPlayer, costanti.obstacles)
 
 
             if (isCollisionDetected_W_Bullet_N_obstacle(costanti.Bullet, costanti.obstacles)) {
@@ -165,6 +163,7 @@ export class HandleGameLoop {
             }
 
             moveBullet()
+            checkIfCollisionIsNoMore();
 
             requestAnimationFrame(loop);
         }
