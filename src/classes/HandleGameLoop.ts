@@ -79,6 +79,19 @@ export class HandleGameLoop {
                 }
             }
 
+            // controlla se il player si sta muovendo verso destra
+            if (costanti.mainPlayer.movingRight) {
+                costanti.mainPlayer.x += 5
+                costanti.mainPlayer.movingRight = false
+            }
+
+            // controlla se il player si sta muovendo verso sinistra
+            if (costanti.mainPlayer.movingLeft) {
+                costanti.mainPlayer.x -= 5
+                costanti.mainPlayer.movingLeft = false
+            }
+
+
             // modifica la struttura del player se questo è in modalità abbassato
             if (costanti.mainPlayer.isCrouching && !costanti.mainPlayer.isStandUp) {
                 costanti.mainPlayer.height = 40

@@ -1,4 +1,5 @@
 import {costanti} from '../constants/costanti'
+import {createServer} from "vite";
 
 
 export class GameObjects {
@@ -25,7 +26,9 @@ export class GameObjects {
             isJumping: false,
             isCrouching: false,
             isStandUp: true,
-            isShooting: false
+            isShooting: false,
+            movingLeft: false,
+            movingRight: false
         };
     }
 
@@ -56,7 +59,26 @@ export class GameObjects {
                 this.shot();
             }
 
+            if (e.code === 'ArrowRight') {
+                this.moveRight()
+            }
+
+            if (e.code === 'ArrowLeft') {
+                this.moveLeft()
+            }
+
         })
+    }
+
+    public moveRight() {
+        costanti.mainPlayer.movingRight = true;
+        costanti.mainPlayer.movingLeft = false;
+    }
+
+
+    public moveLeft() {
+        costanti.mainPlayer.movingRight = false;
+        costanti.mainPlayer.movingLeft = true;
     }
 
     public jump() {

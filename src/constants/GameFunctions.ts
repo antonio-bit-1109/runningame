@@ -56,24 +56,24 @@ export function buildGun() {
         height: 8,
         width: 35,
         y: costanti.mainPlayer.y + 30,
-        x: 140
+        x: costanti.mainPlayer.x + 40
     }
 
     const gunHandle: IcoordinatesElem = {
         height: 40,
         width: 8,
         y: costanti.mainPlayer.y + 11,
-        x: 165
+        x: costanti.mainPlayer.x + 65
     }
     const gunBarrel: IcoordinatesElem = {
         height: 8,
         width: 30,
         y: costanti.mainPlayer.y + 11,
-        x: 165
+        x: costanti.mainPlayer.x + 65
     }
 
     const bullet: ICircle = {
-        x: 180,
+        x: costanti.mainPlayer.x + 80,
         y: costanti.mainPlayer.y + 15,
         radius: 6,
         startAngle: 0,

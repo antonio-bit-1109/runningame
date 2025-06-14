@@ -7,7 +7,9 @@ export interface IPLayerConfig {
     isJumping: boolean,
     isCrouching: boolean,
     isStandUp: boolean,
-    isShooting: boolean
+    isShooting: boolean,
+    movingRight: boolean,
+    movingLeft: boolean
 }
 
 export interface IcoordinatesElem {
