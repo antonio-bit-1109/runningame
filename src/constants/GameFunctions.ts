@@ -280,6 +280,7 @@ export function checkIfCollision(bullet: ICircle, boss: IBoss) {
         (bullet.y - bullet.radius < boss.y + boss.height)
     ) {
         giveDamage(boss)
+        bossDamagedSound()
         const hpBar = document.getElementById('hpBossbar')
         if (hpBar) {
             let i = hpBar.style.width.indexOf("px")
@@ -291,6 +292,14 @@ export function checkIfCollision(bullet: ICircle, boss: IBoss) {
         costanti.Bullet = null;
 
     }
+}
+
+export function bossDamagedSound() {
+    const elem = document.getElementById('bossDamagedSound');
+    const player = elem as HTMLAudioElement;
+    player.src = 'src/assets/sounds/bossDamaged.mp3'
+    player.currentTime = 0;
+    void player.play()
 }
 
 

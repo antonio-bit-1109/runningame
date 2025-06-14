@@ -134,8 +134,8 @@ export class HandleGameLoop {
             }
 
 
-            moveObstacle()
-            disegnaObstacles(costanti.obstacles)
+            // moveObstacle()
+            // disegnaObstacles(costanti.obstacles)
 
             if (isCollisionsDetected(costanti.mainPlayer, costanti.obstacles)) {
                 costanti.isGameOver = true;
