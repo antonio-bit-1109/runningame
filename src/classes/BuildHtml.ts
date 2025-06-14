@@ -93,7 +93,7 @@ export class BuildHtml {
 
     public buildPlayerLifesHtml() {
         const outerWrapper = document.createElement("div");
-        outerWrapper.classList.add("d-flex", "justify-content-start", "w-100", "m-custom-l");
+        outerWrapper.classList.add("d-flex", "justify-content-start", "w-75");
 
         const wrapperHearts = document.createElement("div");
         wrapperHearts.classList.add("d-flex")
