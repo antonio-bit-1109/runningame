@@ -28,7 +28,8 @@ export class GameObjects {
             isStandUp: true,
             isShooting: false,
             movingLeft: false,
-            movingRight: false
+            movingRight: false,
+            hp: 3
         };
     }
 

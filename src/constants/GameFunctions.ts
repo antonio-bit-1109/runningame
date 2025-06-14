@@ -232,7 +232,13 @@ export function disegnaObstacles(obstacles: IObstacle[]) {
 }
 
 
+// funzione che controlla se è avvenuta una collissione tra player e ostacolo
 export function isCollisionsDetected(mainPlayer: IcoordinatesElem, obstacles: IObstacle[]) {
+
+    // se l'elaborazione della collisione sta avvenendo non constento al loop di entrare nella funzione ma deve attendere il completamento dell elaborazione
+    if (costanti.elaborateCollision) {
+        return;
+    }
 
     return obstacles && obstacles.length > 0 && obstacles.some(obst => {
         if (mainPlayer.x < obst.x + obst.width &&
@@ -241,10 +247,56 @@ export function isCollisionsDetected(mainPlayer: IcoordinatesElem, obstacles: IO
             mainPlayer.y + mainPlayer.height > obst.y)
             //
         {
-            return true;
+            costanti.elaborateCollision = true
+            costanti.lastHittedObstacle = obst;
+            // return true;
+            if (costanti.mainPlayer.hp === 1) {
+                costanti.isGameOver = true;
+            }
+
+            costanti.mainPlayer.hp -= 1
+            playerDamagedSound()
+            updateHeartsHtml()
+
+
         }
-        return false;
+
     })
+
+}
+
+// controlla se l'ultimo ostacolo che sta colpendo il main player è uscito dalla width e dalla height del main player,
+// in questo modo non sta avvenendo lacollisione e resetto le variabili
+// costanti.elaborateCollision e costanti.lastHittedObstacle -- avvenuto un ciclo completo
+export function checkIfCollisionIsNoMore() {
+
+    if (costanti.elaborateCollision && costanti.lastHittedObstacle) {
+
+        if (costanti.mainPlayer.x + costanti.mainPlayer.width < costanti.lastHittedObstacle.x || // player a sinistra dell'ostacolo
+            costanti.mainPlayer.x > costanti.lastHittedObstacle.x + costanti.lastHittedObstacle.width)
+            //
+        {
+            costanti.elaborateCollision = false
+            costanti.lastHittedObstacle = null;
+        }
+
+    }
+}
+
+// funzione che prende gli elementi html relativi ai cuori e aggiorna la UI in rapporto alle vite rimanenti del main player
+export function updateHeartsHtml() {
+
+    console.log(costanti.mainPlayer.hp)
+    const HeartNodeList = document.querySelectorAll(".hearth");
+    // @ts-ignore
+    const heartsArr = Array.from(HeartNodeList) as HTMLImageElement[]
+    heartsArr.map((heartElem, i) => {
+        if (i === costanti.mainPlayer.hp) {
+            heartElem.src = 'src/assets/materials/heartEmpty.png'
+        }
+
+    })
+
 
 }
 
@@ -298,6 +350,14 @@ export function bossDamagedSound() {
     const elem = document.getElementById('bossDamagedSound');
     const player = elem as HTMLAudioElement;
     player.src = 'src/assets/sounds/bossDamaged.mp3'
+    player.currentTime = 0;
+    void player.play()
+}
+
+export function playerDamagedSound() {
+    const elem = document.getElementById('playerDamagedSound');
+    const player = elem as HTMLAudioElement;
+    player.src = 'src/assets/sounds/playerDamaged.mp3'
     player.currentTime = 0;
     void player.play()
 }

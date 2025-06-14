@@ -37,7 +37,9 @@ export const costanti: ICostanti = {
     isShrinking: false,
     bulletDamage: 30,
     bombsArray: [],
-    backgroundImage: null
+    backgroundImage: null,
+    elaborateCollision: false,
+    lastHittedObstacle: null
 }
 
 
@@ -76,7 +78,10 @@ interface ICostanti {
     isShrinking: boolean,
     bulletDamage: number,
     bombsArray: IBombs[],
-    backgroundImage: HTMLImageElement | null
+    backgroundImage: HTMLImageElement | null,
+    elaborateCollision: boolean,
+    lastHittedObstacle: IObstacle | null
+
 }
 
 
