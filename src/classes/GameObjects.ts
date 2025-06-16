@@ -78,6 +78,13 @@ export class GameObjects {
 
 
     public moveLeft() {
+
+        //se il player sta al bordo sinistro della canvas
+        // allora non puo piu andare oltre verso sinistra
+        if (costanti.mainPlayer.x === 0) {
+            return;
+        }
+
         costanti.mainPlayer.movingRight = false;
         costanti.mainPlayer.movingLeft = true;
     }

@@ -40,7 +40,7 @@ export class HandleGameLoop {
             handleNextLevelGame(costanti.punteggio)
 
             // gestione della generazione dle boss
-            if (costanti.gameLevel === 2) {
+            if (costanti.punteggio === 200) {
                 generateBoss()
             }
 

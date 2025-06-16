@@ -408,7 +408,7 @@ export function random_Grow_Shrink(boss: IBoss) {
 export function handleNextLevelGame(punteggio: number) {
     if (punteggio % 100 === 0 && punteggio !== 0 && punteggio !== costanti.lastLevelScore) {
         costanti.obstacles.map(obst => obst.velocity++)
-        showNExtLevelHtml();
+        // showNExtLevelHtml();
         costanti.lastLevelScore = punteggio
     }
 }
