@@ -8,7 +8,7 @@ import {
     disegnaObstacles,
     drawElement,
     generateBoss,
-    generateObstacle,
+    generateObstacle, handleBossDefeated,
     handleNextLevelGame,
     interrompiAltreMusiche,
     interrompiPunteggio,
@@ -164,6 +164,8 @@ export class HandleGameLoop {
 
             moveBullet()
             checkIfCollisionIsNoMore();
+
+            handleBossDefeated();
 
             requestAnimationFrame(loop);
         }

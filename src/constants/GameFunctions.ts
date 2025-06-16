@@ -140,7 +140,7 @@ export function generateBoss() {
             height: bossHeight,
             width: 250,
             isShooting: false,
-            hp: 100
+            hp: 300
         }
         costanti.enemyBoss = boss
     }
@@ -337,9 +337,9 @@ export function checkIfCollision(bullet: ICircle, boss: IBoss) {
         if (hpBar) {
             let i = hpBar.style.width.indexOf("px")
             let width = hpBar.style.width.substring(0, i)
-            console.log(width)
             hpBar.setAttribute('aria-valuenow', `${boss.hp}`);
             hpBar.style.width = `${parseInt(width) - costanti.bulletDamage}px`
+            console.log(costanti.enemyBoss.hp, "BOSS HPPPPP")
         }
         costanti.Bullet = null;
 
@@ -365,7 +365,7 @@ export function playerDamagedSound() {
 
 export function giveDamage(boss: IBoss) {
     console.error("boss colpito!!")
-    boss.hp -= 10;
+    boss.hp -= costanti.bulletDamage;
 }
 
 export function generateObstacle() {
@@ -427,3 +427,9 @@ export function showBackgroundIfReady() {
     }
 }
 
+export function handleBossDefeated() {
+    if (costanti.bossHp === 0) {
+        console.log("BOSS SCONFITTO")
+        costanti.enemyBoss = null;
+    }
+}
