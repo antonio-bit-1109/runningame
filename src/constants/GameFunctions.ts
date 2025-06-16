@@ -427,6 +427,3 @@ export function showBackgroundIfReady() {
     }
 }
 
-export function generateBombs() {
-
-}
