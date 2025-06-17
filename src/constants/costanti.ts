@@ -12,7 +12,7 @@ export const costanti: ICostanti = {
     bulletColor: 'black',
     isGameOver: false,
     intervalPunteggio: null,
-    punteggio: 0,
+    punteggio: 190,
     obstacleTimer: 0,
     obstacleInterval: 100,
     mainPlayer: null,
@@ -39,7 +39,8 @@ export const costanti: ICostanti = {
     bombsArray: [],
     backgroundImage: null,
     elaborateCollision: false,
-    lastHittedObstacle: null
+    lastHittedObstacle: null,
+    showBossAnimationDeath: false
 }
 
 
@@ -80,7 +81,9 @@ interface ICostanti {
     bombsArray: IBombs[],
     backgroundImage: HTMLImageElement | null,
     elaborateCollision: boolean,
-    lastHittedObstacle: IObstacle | null
+    lastHittedObstacle: IObstacle | null,
+    showBossAnimationDeath: boolean
+
 
 }
 

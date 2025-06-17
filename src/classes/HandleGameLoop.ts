@@ -8,7 +8,7 @@ import {
     disegnaObstacles,
     drawElement,
     generateBoss,
-    generateObstacle, handleBossDefeated,
+    generateObstacle,
     handleNextLevelGame,
     interrompiAltreMusiche,
     interrompiPunteggio,
@@ -17,7 +17,7 @@ import {
     isCollisionsDetected, loadBackgroundToCanvas,
     moveBoss,
     moveBullet, moveObstacle,
-    playSoundDeath, showBackgroundIfReady,
+    playSoundDeath, showAnimationBossDeath, showBackgroundIfReady,
     update_showOstacoliAbbattuti_InitialVAlue
 } from "../constants/GameFunctions";
 import {costanti} from "../constants/costanti";
@@ -138,7 +138,6 @@ export class HandleGameLoop {
                     height: costanti.enemyBoss.height
                 })
                 isCollisionDetected_w_bullet_n_boss(costanti.Bullet, costanti.enemyBoss)
-
             }
 
             if (costanti.enemyBoss && !costanti.isBossLifeSpawned) {
@@ -147,8 +146,8 @@ export class HandleGameLoop {
             }
 
 
-            moveObstacle()
-            disegnaObstacles(costanti.obstacles)
+            // moveObstacle()
+            // disegnaObstacles(costanti.obstacles)
 
             isCollisionsDetected(costanti.mainPlayer, costanti.obstacles)
 
@@ -164,8 +163,7 @@ export class HandleGameLoop {
 
             moveBullet()
             checkIfCollisionIsNoMore();
-
-            handleBossDefeated();
+            showAnimationBossDeath()
 
             requestAnimationFrame(loop);
         }

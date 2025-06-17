@@ -151,7 +151,8 @@ export function moveBoss() {
     if (costanti.enemyBoss.x > costanti.canvas.width - 400) {
         costanti.enemyBoss.x -= 1;
     } else {
-        random_Grow_Shrink(costanti.enemyBoss)
+        // fa random shrink and grow solo se non è attiva l animazione di morte del boss
+        !costanti.showBossAnimationDeath && random_Grow_Shrink(costanti.enemyBoss)
     }
 }
 
@@ -333,6 +334,7 @@ export function checkIfCollision(bullet: ICircle, boss: IBoss) {
     ) {
         giveDamage(boss)
         bossDamagedSound()
+
         const hpBar = document.getElementById('hpBossbar')
         if (hpBar) {
             let i = hpBar.style.width.indexOf("px")
@@ -343,6 +345,36 @@ export function checkIfCollision(bullet: ICircle, boss: IBoss) {
         }
         costanti.Bullet = null;
 
+        if (boss.hp === 0) {
+            costanti.showBossAnimationDeath = true;
+            showBossIsDeathHtml();
+        }
+
+    }
+}
+
+export function showBossIsDeathHtml() {
+
+    const lowerDiv = document.getElementById("lowerDiv");
+    lowerDiv.classList.add("d-flex", "justify-content-center", "fs-1", "text-danger");
+    lowerDiv.innerHTML = "Boss sconfitto! Complimenti!"
+}
+
+export function showAnimationBossDeath() {
+
+
+    if (costanti.enemyBoss && costanti.showBossAnimationDeath) {
+        costanti.enemyBoss.height -= 4
+    }
+
+    if (costanti.enemyBoss &&
+        costanti.enemyBoss.height >= 0 && costanti.enemyBoss.height < 5 &&
+        costanti.showBossAnimationDeath)
+        //
+    {
+        costanti.showBossAnimationDeath = false;
+        costanti.enemyBoss = null;
+        console.log("boss è tornato null!!")
     }
 }
 
@@ -408,7 +440,6 @@ export function random_Grow_Shrink(boss: IBoss) {
 export function handleNextLevelGame(punteggio: number) {
     if (punteggio % 100 === 0 && punteggio !== 0 && punteggio !== costanti.lastLevelScore) {
         costanti.obstacles.map(obst => obst.velocity++)
-        // showNExtLevelHtml();
         costanti.lastLevelScore = punteggio
     }
 }
@@ -427,9 +458,3 @@ export function showBackgroundIfReady() {
     }
 }
 
-export function handleBossDefeated() {
-    if (costanti.bossHp === 0) {
-        console.log("BOSS SCONFITTO")
-        costanti.enemyBoss = null;
-    }
-}
