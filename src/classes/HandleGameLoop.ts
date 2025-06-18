@@ -1,11 +1,8 @@
 import {
-
-    addPunteggioBonus,
     bossEntranceFrase,
     bossMusic,
-    buildGun, checkIfCollisionIsNoMore,
-    createBossHpBar,
-    disegnaObstacles,
+    buildGun, buildPlayerLifesHtml, checkIfCollisionIsNoMore,
+    createBossHpBar, disegnaObstacles,
     drawElement,
     generateBoss,
     generateObstacle,
@@ -61,7 +58,6 @@ export class HandleGameLoop {
         if (costanti.isGameOver) {
             console.log("GAME OVER IS TRUE!!!!")
             interrompiPunteggio();
-            playSoundDeath();
             interrompiAltreMusiche()
             return;
         }
@@ -140,6 +136,8 @@ export class HandleGameLoop {
             x: costanti.mainPlayer.x
         })
 
+        // disegno l'html delle vite del giocatore
+        buildPlayerLifesHtml()
 
         if (costanti.enemyBoss) {
             bossMusic()
@@ -172,7 +170,7 @@ export class HandleGameLoop {
             costanti.ObstacleShotted = null;
             costanti.ostacoliAbbattuti++
             update_showOstacoliAbbattuti_InitialVAlue()
-            addPunteggioBonus();
+            // addPunteggioBonus();
         }
 
         moveBullet()

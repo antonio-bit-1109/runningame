@@ -35,6 +35,17 @@ export function playSoundDeath() {
     void audioPLayer.play();
 }
 
+export function playSoundHpUpPlayer() {
+
+    const playerHpUp = document.getElementById('playerHpUp');
+    const audioPLayer = playerHpUp as HTMLAudioElement;
+    audioPLayer.src = '/src/assets/sounds/hpUp.mp3';
+    audioPLayer.currentTime = 0;
+    void audioPLayer.play();
+
+
+}
+
 export function interrompiAltreMusiche() {
     // @ts-ignore
     const arrElem: HTMLElement[] = document.getElementsByTagName('audio');
@@ -123,9 +134,9 @@ export function update_showOstacoliAbbattuti_InitialVAlue() {
     divOstacoliAbbattuti.innerHTML = `ostacoli distrutti: ${costanti.ostacoliAbbattuti}`
 }
 
-export function addPunteggioBonus() {
-    costanti.punteggio += 50;
-}
+// export function addPunteggioBonus() {
+//     costanti.punteggio += 50;
+// }
 
 
 // il boss appare solo ogni 5 livelli
@@ -256,9 +267,13 @@ export function isCollisionsDetected(mainPlayer: IcoordinatesElem, obstacles: IO
             }
 
             costanti.mainPlayer.hp -= 1
-            playerDamagedSound()
-            updateHeartsHtml()
 
+            if (costanti.mainPlayer.hp <= 0) {
+                playSoundDeath()
+            } else {
+                playerDamagedSound()
+            }
+            updateHeartsHtml()
         }
 
     })
@@ -283,6 +298,38 @@ export function checkIfCollisionIsNoMore() {
     }
 }
 
+
+// costruisce l elemento html in base al valore di vita che il giocatore ha ( hp = 2 --> 2 cuori pieni 1 vuoto )
+export function buildPlayerLifesHtml() {
+
+    const hpWrapper = document.getElementById('hpWrapper')
+
+    if (hpWrapper !== null) {
+        return;
+    }
+
+    const outerWrapper = document.createElement("div");
+    outerWrapper.classList.add("d-flex", "justify-content-start", "w-75");
+    outerWrapper.id = 'hpWrapper'
+    const wrapperHearts = document.createElement("div");
+    wrapperHearts.classList.add("d-flex")
+
+    if (costanti.mainPlayer) {
+        for (let i = 0; i < costanti.mainPlayer.hp; i++) {
+            const fillHeart = document.createElement("img");
+            fillHeart.classList.add(`hearth`)
+            fillHeart.src = "src/assets/materials/heartFill.png"
+            fillHeart.style.width = '40px'
+            wrapperHearts.appendChild(fillHeart)
+        }
+        outerWrapper.appendChild(wrapperHearts)
+        costanti.upperDiv.appendChild(outerWrapper);
+    }
+
+
+}
+
+
 // funzione che prende gli elementi html relativi ai cuori e aggiorna la UI in rapporto alle vite rimanenti del main player
 export function updateHeartsHtml() {
 
@@ -299,6 +346,7 @@ export function updateHeartsHtml() {
 
 
 }
+
 
 export function isCollisionDetected_W_Bullet_N_obstacle(bullet: ICircle, obstacles: IObstacle[]) {
 
@@ -382,9 +430,19 @@ export function showAnimationBossDeath() {
         costanti.showBossAnimationDeath = false;
         costanti.functionEnterTimes = 0;
         costanti.enemyBoss = null;
+
+        // mostrail livello successivo nell uperdiv
         showNExtLevelHtml();
+
+        // interrompo alcune funzioni nel loop (livellofinito true e svuoto array ostacoli)
         handleLogicChangeLevel()
+
+        // ricarico un hp al player
         reloadOneHpPlayer();
+
+        // interrompi musica del boss
+        stopMusicBoss()
+
     }
 }
 
@@ -395,10 +453,32 @@ function handleLogicChangeLevel() {
 }
 
 function reloadOneHpPlayer() {
-    setTimeout(() => {
-        costanti.mainPlayer.hp++
-        updateHeartsHtml();
-    }, 2000)
+
+    if (costanti.mainPlayer.hp === 3) {
+        console.log("vita al massimo. NUlla da ricaricare!")
+        return;
+    }
+
+    costanti.mainPlayer.hp++
+    const HeartNodeList = document.querySelectorAll(".hearth");
+    // @ts-ignore
+    const heartsArr = Array.from(HeartNodeList) as HTMLImageElement[]
+    heartsArr.map((heartElem, i) => {
+        if (i < costanti.mainPlayer.hp) {
+            heartElem.src = 'src/assets/materials/heartFill.png'
+        } else {
+            heartElem.src = 'src/assets/materials/heartEmpty.png'
+
+        }
+
+    })
+    playSoundHpUpPlayer()
+}
+
+export function stopMusicBoss() {
+    const elem = document.getElementById('bossSound');
+    const player = elem as HTMLAudioElement;
+    player.pause();
 }
 
 export function bossDamagedSound() {
