@@ -43,7 +43,8 @@ export const costanti: ICostanti = {
     elaborateCollision: false,
     lastHittedObstacle: null,
     showBossAnimationDeath: false,
-    functionEnterTimes: 0
+    functionEnterTimes: 0,
+    playerSmiling: false
 }
 
 
@@ -88,7 +89,8 @@ interface ICostanti {
     elaborateCollision: boolean,
     lastHittedObstacle: IObstacle | null,
     showBossAnimationDeath: boolean,
-    functionEnterTimes: number
+    functionEnterTimes: number,
+    playerSmiling: boolean
 
 
 }

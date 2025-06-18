@@ -11,7 +11,7 @@ import {
     interrompiPunteggio,
     isCollisionDetected_w_bullet_n_boss,
     isCollisionDetected_W_Bullet_N_obstacle,
-    isCollisionsDetected, loadBackgroundToCanvas,
+    isCollisionsDetected, loadBackgroundToCanvas, makePlayerSmile,
     moveBoss,
     moveBullet, moveObstacle,
     playSoundDeath, showAnimationBossDeath, showBackgroundIfReady,
@@ -175,6 +175,8 @@ export class HandleGameLoop {
         moveBullet()
         checkIfCollisionIsNoMore();
         showAnimationBossDeath()
+
+        makePlayerSmile()
     }
 
 }

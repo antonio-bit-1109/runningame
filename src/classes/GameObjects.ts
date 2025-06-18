@@ -68,7 +68,15 @@ export class GameObjects {
                 this.moveLeft()
             }
 
+            if (e.code === 'KeyK') {
+                this.smile()
+            }
+
         })
+    }
+
+    public smile() {
+        costanti.playerSmiling = !costanti.playerSmiling
     }
 
     public moveRight() {

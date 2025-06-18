@@ -566,3 +566,100 @@ export function showBackgroundIfReady() {
     }
 }
 
+export function makePlayerSmile() {
+
+    if (!costanti.playerSmiling) {
+        return;
+    }
+
+    const eyeSn: IcoordinatesElem = {height: 6, width: 6, y: costanti.mainPlayer.y + 20, x: costanti.mainPlayer.x + 12};
+    const eyeDx: IcoordinatesElem = {height: 6, width: 6, y: costanti.mainPlayer.y + 20, x: costanti.mainPlayer.x + 30};
+    const nose: IcoordinatesElem = {height: 6, width: 6, y: costanti.mainPlayer.y + 36, x: costanti.mainPlayer.x + 22};
+    const m1: IcoordinatesElem = {height: 6, width: 6, y: costanti.mainPlayer.y + 55, x: costanti.mainPlayer.x + 22};
+    const m2: IcoordinatesElem = {height: 6, width: 6, y: costanti.mainPlayer.y + 55, x: costanti.mainPlayer.x + 16};
+    const m3: IcoordinatesElem = {height: 6, width: 6, y: costanti.mainPlayer.y + 55, x: costanti.mainPlayer.x + 28};
+    const m4: IcoordinatesElem = {height: 6, width: 6, y: costanti.mainPlayer.y + 49, x: costanti.mainPlayer.x + 10};
+    const m5: IcoordinatesElem = {height: 6, width: 6, y: costanti.mainPlayer.y + 49, x: costanti.mainPlayer.x + 34};
+
+    // Braccio (parte superiore del braccio)
+    const upperArm: IcoordinatesElem = {
+        height: 8,
+        width: 25,
+        y: costanti.mainPlayer.y + 35,
+        x: costanti.mainPlayer.x + 50
+    };
+
+    // Avambraccio (verso l'alto per il saluto)
+    const forearm: IcoordinatesElem = {
+        height: 25,
+        width: 8,
+        y: costanti.mainPlayer.y + 10,
+        x: costanti.mainPlayer.x + 67
+    };
+
+    // Palmo della mano
+    const palm: IcoordinatesElem = {
+        height: 12,
+        width: 15,
+        y: costanti.mainPlayer.y + 8,
+        x: costanti.mainPlayer.x + 64
+    };
+
+    // Dita della mano (5 dita per una mano aperta)
+    const finger1: IcoordinatesElem = {
+        height: 8,
+        width: 3,
+        y: costanti.mainPlayer.y + 0,
+        x: costanti.mainPlayer.x + 66
+    };
+    const finger2: IcoordinatesElem = {
+        height: 10,
+        width: 3,
+        y: costanti.mainPlayer.y - 2,
+        x: costanti.mainPlayer.x + 70
+    };
+    const finger3: IcoordinatesElem = {
+        height: 9,
+        width: 3,
+        y: costanti.mainPlayer.y - 1,
+        x: costanti.mainPlayer.x + 74
+    };
+    const finger4: IcoordinatesElem = {
+        height: 7,
+        width: 3,
+        y: costanti.mainPlayer.y + 1,
+        x: costanti.mainPlayer.x + 78
+    };
+    const finger5: IcoordinatesElem = {
+        height: 8,
+        width: 3,
+        y: costanti.mainPlayer.y + 10,
+        x: costanti.mainPlayer.x + 60
+    }; // pollice
+
+    const arrElem = [];
+    // Elementi del viso
+    arrElem.push(eyeSn);
+    arrElem.push(eyeDx);
+    arrElem.push(nose);
+    arrElem.push(m1);
+    arrElem.push(m2);
+    arrElem.push(m3);
+    arrElem.push(m4);
+    arrElem.push(m5);
+
+    // Elementi del braccio e mano
+    arrElem.push(upperArm);
+    arrElem.push(forearm);
+    arrElem.push(palm);
+    arrElem.push(finger1);
+    arrElem.push(finger2);
+    arrElem.push(finger3);
+    arrElem.push(finger4);
+    arrElem.push(finger5);
+
+    arrElem.forEach(e => {
+        drawElement("black", e);
+    })
+}
+
