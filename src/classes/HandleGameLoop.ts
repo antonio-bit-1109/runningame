@@ -38,7 +38,6 @@ export class HandleGameLoop {
         loop()
     }
 
-
     public levelOne() {
 
         costanti.obstacleTimer++
