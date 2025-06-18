@@ -200,7 +200,7 @@ export function bossEntranceFrase() {
     costanti.lowerDiv.classList.add("d-flex", "justify-content-end")
     costanti.lowerDiv.appendChild(img)
     setTimeout(() => {
-        costanti.lowerDiv.removeChild(img);
+        img && costanti.lowerDiv.removeChild(img);
     }, 3000)
 }
 
@@ -258,7 +258,6 @@ export function isCollisionsDetected(mainPlayer: IcoordinatesElem, obstacles: IO
             costanti.mainPlayer.hp -= 1
             playerDamagedSound()
             updateHeartsHtml()
-
 
         }
 
@@ -364,7 +363,15 @@ export function showAnimationBossDeath() {
 
 
     if (costanti.enemyBoss && costanti.showBossAnimationDeath) {
+        costanti.functionEnterTimes++
         costanti.enemyBoss.height -= 4
+
+        if (costanti.functionEnterTimes % 5 === 0) {
+            costanti.enemyBoss.x -= 4;
+        } else {
+            costanti.enemyBoss.x += 4;
+        }
+
     }
 
     if (costanti.enemyBoss &&
@@ -373,9 +380,25 @@ export function showAnimationBossDeath() {
         //
     {
         costanti.showBossAnimationDeath = false;
+        costanti.functionEnterTimes = 0;
         costanti.enemyBoss = null;
-        console.log("boss è tornato null!!")
+        showNExtLevelHtml();
+        handleLogicChangeLevel()
+        reloadOneHpPlayer();
     }
+}
+
+function handleLogicChangeLevel() {
+    costanti.levelFinished = true;
+    costanti.startObstaclesGeneration = false;
+    costanti.obstacles = [];
+}
+
+function reloadOneHpPlayer() {
+    setTimeout(() => {
+        costanti.mainPlayer.hp++
+        updateHeartsHtml();
+    }, 2000)
 }
 
 export function bossDamagedSound() {
@@ -406,14 +429,19 @@ export function generateObstacle() {
     const velocity = costanti.obstacleVelocity + Math.random() * 8;
 
 
-    const obstacle: IObstacle = {
-        height: 20 + Math.random() * 10,
-        width: 15,
-        y: groundPosition - Math.random() * 101,
-        x: costanti.canvas.width,
-        velocity: velocity
+    if (costanti.startObstaclesGeneration) {
+        const obstacle: IObstacle = {
+            height: 20 + Math.random() * 10,
+            width: 15,
+            y: groundPosition - Math.random() * 101,
+            x: costanti.canvas.width,
+            velocity: velocity
+        }
+        costanti.obstacles.push(obstacle)
     }
-    costanti.obstacles.push(obstacle)
+
+
+    console.log(costanti.obstacles)
 }
 
 

@@ -12,11 +12,13 @@ export const costanti: ICostanti = {
     bulletColor: 'black',
     isGameOver: false,
     intervalPunteggio: null,
-    punteggio: 190,
+    punteggio: 0,
     obstacleTimer: 0,
     obstacleInterval: 100,
     mainPlayer: null,
     obstacles: [],
+    startObstaclesGeneration: false,
+    levelFinished: false,
     Bullet: null,
     obstacleVelocity: 8,
     canvas: null,
@@ -40,7 +42,8 @@ export const costanti: ICostanti = {
     backgroundImage: null,
     elaborateCollision: false,
     lastHittedObstacle: null,
-    showBossAnimationDeath: false
+    showBossAnimationDeath: false,
+    functionEnterTimes: 0
 }
 
 
@@ -59,6 +62,8 @@ interface ICostanti {
     obstacleInterval: number,
     mainPlayer: null | IPLayerConfig,
     obstacles: IObstacle[],
+    startObstaclesGeneration: boolean,
+    levelFinished: boolean,
     Bullet: ICircle | null,
     obstacleVelocity: number,
     canvas: HTMLCanvasElement | null,
@@ -82,7 +87,8 @@ interface ICostanti {
     backgroundImage: HTMLImageElement | null,
     elaborateCollision: boolean,
     lastHittedObstacle: IObstacle | null,
-    showBossAnimationDeath: boolean
+    showBossAnimationDeath: boolean,
+    functionEnterTimes: number
 
 
 }
